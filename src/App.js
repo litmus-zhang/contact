@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import { Button } from "antd"
+import { AppstoreAddOutlined, DeleteFilled } from "@ant-design/icons"
+import Sidebar from "./Sidebar"
+import { toggleDrawer } from './controller/features/Drawer/DrawerSlice';
+import {useSelector, useDispatch} from "react-redux"
+import AddDrawer from './AddDrawer';
+function App()
+{
+  const { visible } = useSelector(state => state.drawer)
+  const dispatch = useDispatch()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Sidebar>
+      { visible && <AddDrawer/> }
+      <div className='actions'
+        style={{display: 'flex' , width: "100%", margin: "2rem auto"}}>
+        <Button
+          type='primary'
+          icon={<AppstoreAddOutlined />}
+            size="large"
+            onClick={()=> dispatch(toggleDrawer())}
         >
-          Learn React
-        </a>
-      </header>
+          Add New Contact
+        </Button>
+        <Button
+          type='primary'
+          icon={<DeleteFilled />}
+            size="large"
+            danger
+        >
+          Delete All Contacts
+        </Button>
+      </div>
+
+      
+      </Sidebar>
+     
+       
     </div>
   );
 }
